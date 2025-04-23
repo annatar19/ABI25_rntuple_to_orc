@@ -117,11 +117,12 @@ int main(int argc, char **argv) {
   std::unique_ptr<orc::OutputStream> outStream =
       orc::writeLocalFile(std::string(kNTupleName) + std::string(".orc"));
   // If the batchSize is reached it is written to the file. The exact value was
-  // copied from the example code.
+  // copied from the example code, it is likely not optimal.
   uint64_t batchSize = 1024;
 
   // Used to keep track of where in the current batch the loop is;
   uint64_t rows = 0;
+  // Used later for itterating over fields.
   uint64_t field_count;
 
   // These 2 will always exist, regardless of the fields used, so they don't
@@ -130,7 +131,6 @@ int main(int argc, char **argv) {
   orc::StructVectorBatch *root;
 
   std::vector<BVec> batches;
-  std::vector<std::string> keys(field_count);
 
   std::cout << "Initializing ORC structures…\n";
 
