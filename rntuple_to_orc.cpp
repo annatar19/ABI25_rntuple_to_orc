@@ -22,7 +22,6 @@ using VVec =
     std::variant<ROOT::RNTupleView<std::string>,
                  ROOT::RNTupleView<std::int32_t>,
                  ROOT::RNTupleView<std::uint32_t>, ROOT::RNTupleView<double>>;
-
 using BVec = std::variant<orc::LongVectorBatch *, orc::DoubleVectorBatch *,
                           orc::StringVectorBatch *>;
 
@@ -44,19 +43,6 @@ template <class... Ts> struct overloaded : Ts... {
   using Ts::operator()...;
 };
 template <class... Ts> overloaded(Ts...) -> overloaded<Ts...>;
-
-template <typename T>
-inline void ProcessNumberField(std::ostream &out, const std::string &fieldName,
-                               ROOT::RNTupleView<T> &view,
-                               std::uint64_t entryId) {
-  out << '"' << fieldName << "\":" << '"' << view(entryId) << '"';
-}
-
-inline void ProcessStringField(std::ostream &out, std::string_view fieldName,
-                               ROOT::RNTupleView<std::string> &view,
-                               std::uint64_t entryId) {
-  out << '"' << fieldName << "\":\"" << view(entryId) << '"';
-}
 
 enum FieldTypes { String, Int32, Uint32, Double };
 
