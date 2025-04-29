@@ -209,25 +209,25 @@ int main(int argc, char **argv) {
           overloaded{
               [&](orc::LongVectorBatch *b, std::vector<std::int32_t> &f) {
                 for (uint64_t row = 0; row < rows_to_add; row++) {
-                  b->data[row] = f[row];
+                  b->data[row] = f[row + cur_entry];
                 }
                 b->numElements = rows_to_add;
               },
               [&](orc::LongVectorBatch *b, std::vector<std::uint32_t> &f) {
                 for (uint64_t row = 0; row < rows_to_add; row++) {
-                  b->data[row] = f[row];
+                  b->data[row] = f[row + cur_entry];
                 }
                 b->numElements = rows_to_add;
               },
               [&](orc::DoubleVectorBatch *b, std::vector<double> &f) {
                 for (uint64_t row = 0; row < rows_to_add; row++) {
-                  b->data[row] = f[row];
+                  b->data[row] = f[row + cur_entry];
                 }
                 b->numElements = rows_to_add;
               },
               [&](orc::StringVectorBatch *b, std::vector<std::string> &f) {
                 for (uint64_t row = 0; row < rows_to_add; row++) {
-                  const auto &s = f[row];
+                  const auto &s = f[row + cur_entry];
                   char *copy = strdup(s.c_str());
                   b->data[row] = copy;
                   b->length[row] = static_cast<uint64_t>(s.size());
